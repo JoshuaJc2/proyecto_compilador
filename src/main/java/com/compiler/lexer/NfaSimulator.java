@@ -57,13 +57,18 @@ public class NfaSimulator {
         */
         //throw new UnsupportedOperationException("Not implemented");
         Set<State> currentStates = new HashSet<>();
+        Set<State> nextStates = new HashSet<>();
         addEpsilonClosure(nfa.getStartState(), currentStates);
         
-        for (char c : input.toCharArray()) {
-            Set<State> nextStates = new HashSet<>();
+        char[] rx = input.toCharArray();
+        char current = ' ';
+
+        for(int i = 0; i < rx.length; i++){
+            current = rx[i];
+            nextStates = new HashSet<>();
             for (State s: currentStates) {
-                for (State next: s.getTransitions(c)) {
-                    addEpsilonClosure(next, nextStates);
+                for (State n: s.getTransitions(current)) {
+                    addEpsilonClosure(n, nextStates);
                 }
             }
             currentStates = nextStates;

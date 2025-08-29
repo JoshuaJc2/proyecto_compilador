@@ -123,27 +123,32 @@ public class ShuntingYard {
         String regex = insertConcatenationOperator(infixRegex);
         StringBuilder output = new StringBuilder();
         Stack<Character> stack = new Stack<>();
-        
-        for (char c : regex.toCharArray()) {
-            if (isOperand(c)) {
-                output.append(c);
-            } else if (c == '(') {
-                stack.push(c);
-            } else if (c == ')') {
+        char[] rx = regex.toCharArray();
+        char current = ' ';
+
+        //for (char c : regex.toCharArray()) {
+        for(int i = 0; i < rx.length; i++) {
+            current = rx[i];
+            if (isOperand(current)) {
+                output.append(current);
+            } else if (current == '(') {
+                stack.push(current);
+            } else if (current == ')') {
                 while (!stack.isEmpty() && stack.peek() != '(') {
                     output.append(stack.pop());
                 }
                 if (!stack.isEmpty()) {
                     stack.pop();
                 }
-            } else if (precedence.containsKey(c)) {
+            } else if (precedence.containsKey(current)) {
                 while (!stack.isEmpty() && 
                        stack.peek() != '(' &&
                        precedence.containsKey(stack.peek()) &&
-                       precedence.get(stack.peek()) >= precedence.get(c)) {
-                    output.append(stack.pop());
+                       precedence.get(stack.peek()) >= precedence.get(current)) {
+                    char toInsert = stack.pop();
+                    output.append(toInsert);
                 }
-                stack.push(c);
+                stack.push(current);
             }
         }
         
@@ -151,6 +156,7 @@ public class ShuntingYard {
             output.append(stack.pop());
         }
 
-        return output.toString();
+        String stdOutput = output.toString();
+        return stdOutput;
     }
 }
