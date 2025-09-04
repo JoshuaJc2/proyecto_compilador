@@ -27,6 +27,16 @@ public class DFA {
      */
     public DFA(DfaState startState, List<DfaState> allStates) {
         //TODO: Implement DFA construction logic.
-        throw new UnsupportedOperationException("DFA construction is not supported yet.");
+        //throw new UnsupportedOperationException("DFA construction is not supported yet.");
+        this.startState = startState; 
+        this.allStates = allStates;
+    }
+
+    public DfaState getStartState() {
+        return this.startState;
+    }
+
+    public List<DfaState> getAllStates() {
+        return this.allStates;
     }
 }
