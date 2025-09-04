@@ -1,8 +1,10 @@
 package com.compiler.lexer.dfa;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-
+import java.util.HashMap;
+import java.util.Iterator;
 import com.compiler.lexer.nfa.State;
 
 /**
@@ -19,7 +21,7 @@ public class DfaState {
      */
     public Map<Character, DfaState> getTransitions() {
         // TODO: Implement getTransitions
-        throw new UnsupportedOperationException("Not implemented");
+        return this.transitions;
     }
     private static int nextId = 0;
     /**
@@ -45,7 +47,11 @@ public class DfaState {
      */
     public DfaState(Set<State> nfaStates) {
     // TODO: Implement constructor
-    throw new UnsupportedOperationException("Not implemented");
+    //throw new UnsupportedOperationException("Not implemented");
+        this.id = nextId++;
+        this.nfaStates = nfaStates;
+        this.isFinal = false;
+        this.transitions = new HashMap<>(); 
     }
 
     /**
@@ -55,7 +61,7 @@ public class DfaState {
      */
     public void addTransition(Character symbol, DfaState toState) {
     // TODO: Implement addTransition
-    throw new UnsupportedOperationException("Not implemented");
+        this.transitions.put(symbol, toState);
     }
 
     /**
@@ -66,7 +72,13 @@ public class DfaState {
     @Override
     public boolean equals(Object obj) {
     // TODO: Implement equals
-    throw new UnsupportedOperationException("Not implemented");
+        if(this == obj)
+            return true;
+        if(obj == null || getClass() != obj.getClass())
+            return false;
+        
+        DfaState dfaState = (DfaState) obj;
+        return Objects.equals(nfaStates, dfaState.nfaStates);
     }
 
     /**
@@ -76,7 +88,7 @@ public class DfaState {
     @Override
     public int hashCode() {
     // TODO: Implement hashCode
-    throw new UnsupportedOperationException("Not implemented");
+        return Objects.hash(nfaStates);
     }
     
     /**
@@ -86,7 +98,19 @@ public class DfaState {
     @Override
     public String toString() {
     // TODO: Implement toString
-    throw new UnsupportedOperationException("Not implemented");
+        StringBuilder str = new StringBuilder();
+        str.append("DfaState{\nid: ");
+        str.append(this.id);
+        str.append("\nnfaStates: "); 
+        Iterator<State> stateIt = this.nfaStates.iterator();
+        while(stateIt.hasNext()){
+            State s = stateIt.next();
+            str.append(s.id);
+            str.append("\t ");
+        }
+        str.append("\nisFinal: ");
+        str.append(this.isFinal);
+        return str.toString();
     }
 
     /**
@@ -95,7 +119,7 @@ public class DfaState {
      */
     public void setFinal(boolean isFinal) {
     // TODO: Implement setFinal
-    throw new UnsupportedOperationException("Not implemented");
+        this.isFinal = isFinal;
     }
 
     /**
@@ -104,7 +128,7 @@ public class DfaState {
      */
     public boolean isFinal() {
     // TODO: Implement isFinal
-    throw new UnsupportedOperationException("Not implemented");
+        return this.isFinal;
     }
 
     /**
@@ -114,7 +138,7 @@ public class DfaState {
      */
     public DfaState getTransition(char symbol) {
     // TODO: Implement getTransition
-    throw new UnsupportedOperationException("Not implemented");
+        return this.transitions.get(symbol);
     }
 
     /**
@@ -123,6 +147,10 @@ public class DfaState {
      */
     public Set<State> getName() {
     // TODO: Implement getName
-    throw new UnsupportedOperationException("Not implemented");
+        return this.nfaStates;
+    }
+
+    public Set<State> getNfaStates() {
+        return this.nfaStates;
     }
 }
